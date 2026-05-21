@@ -37,7 +37,7 @@ public class AnagramFinder
        }
 
    }
-  //~Public  Methods ........................................................
+    //~Public  Methods ........................................................
     // ----------------------------------------------------------
     /**
      * sorts letters of a word in alphabetical order

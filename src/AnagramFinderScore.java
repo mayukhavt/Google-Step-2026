@@ -58,9 +58,16 @@ public class AnagramFinderScore
     private int score(String word) { 
         int sum = 0;
         for (char c : word.toLowerCase().toCharArray()) {
+            // 1 point: a, e, h, i, n, o, r, s, t 
+            // 2 points: c, d, l, m, u
+            // 3 points: b, f, g, p, v, w, y
+            // 4 points: j, k, q, x, z
+            int[] scores = {1, 3, 2, 2, 1, 3, 3, 1, 1, 4, 4, 2, 2, 1, 1, 3, 
+                4, 1, 1, 1, 2, 3, 3, 4, 3, 4};
+
             if (c >= 'a' && c <= 'z') {
                 // assigns score
-                sum += (c - 'a' + 1);
+                sum += scores[c - 'a'];
             }
         }
         return sum;

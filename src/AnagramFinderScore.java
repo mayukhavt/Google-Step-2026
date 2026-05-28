@@ -72,6 +72,15 @@ public class AnagramFinderScore
         }
         return sum;
     }
+    // ----------------------------------------------------------
+    /**
+     * stores score
+     * @param word word to be scored
+     * @return score of the word
+     */
+    public int scoreOf(String word) {
+        return score(word);
+    }
     //~Public  Methods ........................................................
     // ----------------------------------------------------------
     /**

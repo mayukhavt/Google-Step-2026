@@ -40,7 +40,7 @@ public class HighestScoringWord
                 }
                 // send to logic class and write result
                 String best = finder.bestWord(input);
-                pw.println(best);
+                pw.println(finder.scoreOf(best));
             }
 
             sc.close();

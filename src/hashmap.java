@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.ListIterator;
 // -------------------------------------------------------------------------
 /**
  *  Write a one-sentence summary of your class here.
@@ -120,20 +121,30 @@ public class hashmap <K, V>
         return null;
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Place a description of your method here.
+     * @param key
+     * @return
+     */
     // -------------------------
-    // Delete
+    // Delete -- make this o(n) its currently o(n^2)
     // -------------------------
     public boolean delete(K key)
     {
         int index = hash(key);
 
         LinkedList<Entry> bucket = buckets[index];
-
-        for (int i = 0; i < bucket.size(); i++)
+        ListIterator<Entry> iterator = bucket.listIterator();
+        while (iterator.hasNext())
         {
-            if (bucket.get(i).key.equals(key))
+            
+            Entry entry = iterator.next();
+   
+        
+            if (entry.key.equals(key))
             {
-                bucket.remove(i);
+                iterator.remove();
                 size--;
                 return true;
             }
@@ -141,6 +152,7 @@ public class hashmap <K, V>
 
         return false;
     }
+    
 
     // -------------------------
     // Size

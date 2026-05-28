@@ -2,9 +2,7 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 // -------------------------------------------------------------------------
 /**
- *  Write a one-sentence summary of your class here.
- *  Follow it with additional details about its purpose, what abstraction
- *  it represents, and how to use it.
+ *  implements a hashmap (generic)
  * 
  *  @author mayakkrla
  *  @version 28 May 2026
@@ -66,10 +64,12 @@ public class hashmap <K, V>
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
-     * @param key
-     * @param value
-     * @return
+     * Setter
+     * @param key key in hashmap
+     * @param value value corresponding to key
+     * @return true if a new key-value pair was added, false if key existed
+     * (value gets updated)
+     * 
      */
     
     public boolean put(K key, V value)
@@ -101,9 +101,17 @@ public class hashmap <K, V>
         return true;
     }
 
-    // -------------------------
-    // Get
-    // -------------------------
+  
+   
+
+    // ----------------------------------------------------------
+    /**
+     * Getter
+     * @param key
+     * @return returns value if found
+     */
+    
+    
     public V get(K key)
     {
         int index = hash(key);
@@ -123,12 +131,12 @@ public class hashmap <K, V>
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
+     * Delete method
      * @param key
-     * @return
+     * @return true if the key was found and removed
      */
     // -------------------------
-    // Delete -- make this o(n) its currently o(n^2)
+    
     // -------------------------
     public boolean delete(K key)
     {
@@ -154,9 +162,14 @@ public class hashmap <K, V>
     }
     
 
-    // -------------------------
-    // Size
-    // -------------------------
+    
+    /**
+     * Returns the number of key-value pairs currently
+     * stored in the hash table.
+     *
+     * @return the total number of items in the hash table
+     */
+    
     public int size()
     {
         return size;

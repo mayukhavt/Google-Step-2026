@@ -3,9 +3,7 @@ import org.junit.Test;
 
 // -------------------------------------------------------------------------
 /**
- *  Write a one-sentence summary of your class here.
- *  Follow it with additional details about its purpose, what abstraction
- *  it represents, and how to use it.
+ * test file for hashmap
  * 
  *  @author mayakkrla
  *  @version 28 May 2026
@@ -17,9 +15,9 @@ public class hashmapTest
 
     
 
-        // ----------------------------------------------------------
+        
         /**
-         * Place a description of your method here.
+         * copy pasted from python code
          */
         @Test
         public void functionalTest()

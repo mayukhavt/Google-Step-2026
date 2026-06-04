@@ -134,6 +134,28 @@ public class ModularisedCalculator
         tokens.add(new Token("DIVIDE"));
         return index + 1;
     }
+    /**
+     * Read left paranthesis token.
+     */
+    private static int readLeftParen(
+        ArrayList<Token> tokens,
+        int index)
+    {
+        tokens.add(new Token("LEFT_PAREN"));
+        return index + 1;
+    }
+    
+    /**
+     * Read right paranthesis token.
+     */
+
+    private static int readRightParen(
+        ArrayList<Token> tokens,
+        int index)
+    {
+        tokens.add(new Token("RIGHT_PAREN"));
+        return index + 1;
+    }
 
     /**
      * Convert input string to tokens.
@@ -169,6 +191,14 @@ public class ModularisedCalculator
             {
                 index = readDivide(tokens, index);
             }
+            else if (current == '(')
+            {
+                index = readLeftParen(tokens, index);
+            }
+            else if (current == ')')
+            {
+                index = readRightParen(tokens, index);
+            }
             else
             {
                 throw new IllegalArgumentException(
@@ -182,35 +212,111 @@ public class ModularisedCalculator
 
     /**
      * Evaluate tokens.
-     * @param tokens 
-     * @return tokens
+     * @param tokens token list
+     * @return answer
      */
     public static double evaluate(ArrayList<Token> tokens)
     {
-        double answer = 0;
+        int[] index = {0};
+        return evaluateAs(tokens, index);
+    }
 
-        tokens.add(0, new Token("PLUS"));
 
-        int index = 1;
+    /**
+     * Handles + and -
+     */
+    private static double evaluateAs(
+        ArrayList<Token> tokens,
+        int[] index)
+    {
+        double value = evaluateDm(tokens, index);
 
-        while (index < tokens.size())
+        while (index[0] < tokens.size())
         {
-            if (tokens.get(index).type.equals("NUMBER"))
-            {
-                if (tokens.get(index - 1).type.equals("PLUS"))
-                {
-                    answer += tokens.get(index).number;
-                }
-                else if (tokens.get(index - 1).type.equals("MINUS"))
-                {
-                    answer -= tokens.get(index).number;
-                }
-            }
+            String type = tokens.get(index[0]).type;
 
-            index++;
+            if (type.equals("PLUS"))
+            {
+                index[0]++;
+                value += evaluateDm(tokens, index);
+            }
+            else if (type.equals("MINUS"))
+            {
+                index[0]++;
+                value -= evaluateDm(tokens, index);
+            }
+            else
+            {
+                break;
+            }
         }
 
-        return answer;
+        return value;
+    }
+
+
+    /**
+     * Handles * and /
+     */
+    private static double evaluateDm(
+        ArrayList<Token> tokens,
+        int[] index)
+    {
+        double value = evaluateB(tokens, index);
+
+        while (index[0] < tokens.size())
+        {
+            String type = tokens.get(index[0]).type;
+
+            if (type.equals("MULTIPLY"))
+            {
+                index[0]++;
+                value *= evaluateB(tokens, index);
+            }
+            else if (type.equals("DIVIDE"))
+            {
+                index[0]++;
+                value /= evaluateB(tokens, index);
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        return value;
+    }
+
+
+    /**
+     * Handles numbers and parentheses
+     */
+    private static double evaluateB(
+        ArrayList<Token> tokens,
+        int[] index)
+    {
+        Token current = tokens.get(index[0]);
+
+        if (current.type.equals("NUMBER"))
+        {
+            index[0]++;
+            return current.number;
+        }
+
+        if (current.type.equals("LEFT_PAREN"))
+        {
+            index[0]++;
+
+            double value =
+                evaluateAs(tokens, index);
+
+            index[0]++;
+
+            return value;
+        }
+
+        throw new IllegalArgumentException(
+            "Unexpected token");
     }
 
 

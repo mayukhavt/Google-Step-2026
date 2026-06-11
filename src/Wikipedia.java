@@ -211,6 +211,9 @@ public class Wikipedia
             for (int id : titles.keySet()) {
                 newRank.put(id, 0.0);
             }
+            
+            double shareToAll = 0.0;
+
             for (int id : titles.keySet()) {
                 ArrayList<Integer> neighbors = links.get(id);
                 if (neighbors.size() == 0) {
@@ -219,17 +222,22 @@ public class Wikipedia
                         newRank.put(page, newRank.get(page) + share);
                     }
                 } else {
-                    double share = 0.85* rank.get(id) / neighbors.size();
-                    double shareToAll = (0.15* rank.get(id) / titles.size());
+                    double nodeRank = rank.get(id);
+                    double share = nodeRank * 0.85 / neighbors.size();
                     for (int dst : neighbors) {
                         newRank.put(dst, newRank.get(dst) + share);
                     }
-                    for (int page : titles.keySet()) {
-                        newRank.put(page, newRank.get(page) + shareToAll);
-                    }
-                    
+                    shareToAll += nodeRank * 0.15;
                 }
             }
+
+            shareToAll /= titles.size();
+
+            for (int page : titles.keySet()) {
+                newRank.put(page,
+                    newRank.get(page) + shareToAll);
+            }
+        
             double diff = 0.0;
             for (int id : titles.keySet()) {
                 double d = newRank.get(id) - rank.get(id);
@@ -239,7 +247,7 @@ public class Wikipedia
             if (diff < 0.01) {
                 break;
             }
-        }
+        
         double total = 0.0;
         for (double value : rank.values()) {
             total += value;

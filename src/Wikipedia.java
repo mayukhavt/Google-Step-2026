@@ -219,10 +219,15 @@ public class Wikipedia
                         newRank.put(page, newRank.get(page) + share);
                     }
                 } else {
-                    double share = rank.get(id) / neighbors.size();
+                    double share = 0.85* rank.get(id) / neighbors.size();
+                    double shareToAll = (0.15* rank.get(id) / titles.size());
                     for (int dst : neighbors) {
                         newRank.put(dst, newRank.get(dst) + share);
                     }
+                    for (int page : titles.keySet()) {
+                        newRank.put(page, newRank.get(page) + shareToAll);
+                    }
+                    
                 }
             }
             double diff = 0.0;
